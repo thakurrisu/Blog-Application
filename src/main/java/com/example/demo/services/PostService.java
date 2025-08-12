@@ -3,9 +3,10 @@ import java.util.*;
 
 import com.example.demo.models.Post;
 import com.example.demo.payloads.PostDto;
+import com.example.demo.payloads.PostResponse;
 public interface PostService {
 	
-	public List<PostDto> getAllPost(Integer pageNumber,Integer pageSize);
+	public PostResponse getAllPost(Integer pageNumber,Integer pageSize);
 	
 	public List<PostDto> getAllPostByUser(Integer userId);
 	

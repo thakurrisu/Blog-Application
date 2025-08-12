@@ -22,6 +22,7 @@ import com.example.demo.models.Category;
 import com.example.demo.models.Post;
 import com.example.demo.models.User;
 import com.example.demo.payloads.CategoryDto;
+import com.example.demo.payloads.PostResponse;
 import com.example.demo.payloads.PostDto;
 import com.example.demo.services.PostService;
 
@@ -42,13 +43,18 @@ public class PostServiceImpl implements PostService {
 
 
 	@Override
-	public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
 		// TODO Auto-generated method stub
 		Pageable p = PageRequest.of(pageNumber, pageSize);
 		Page<Post> allPagePosts = this.postRepo.findAll(p);
 		List<Post> allPosts = allPagePosts.getContent();
 		List<PostDto> allPostDto = allPagePosts.stream().map(post-> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
-	    return allPostDto;
+		PostResponse postResponse = new PostResponse();
+		postResponse.setPostDto(allPostDto);
+		postResponse.setPageNumber(allPagePosts.getNumber());
+		postResponse.setTotalPages(allPagePosts.getTotalPages());
+		postResponse.setIsLast(allPagePosts.isLast());
+	    return postResponse;
 	}
 
 	@Override
