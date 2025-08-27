@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.payloads.PostDto;
 import com.example.demo.payloads.PostResponse;
 import com.example.demo.services.PostService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 @RestController
 @RequestMapping("/api/v1/")
+@Tag(name = "Post APIs")
 public class PostController {
 
 	@Autowired
@@ -40,7 +44,7 @@ public class PostController {
 	public ResponseEntity<List<PostDto>> getPostByUser(@PathVariable Integer userId)
 	{
 	   List<PostDto> postDto = this.postService.getAllPostByUser(userId);
-	   return new ResponseEntity<List<PostDto>>(postDto , HttpStatus.OK);
+	   return new ResponseEntity<>(postDto , HttpStatus.OK);
 	}
 	
 	@GetMapping("/category/{categoryId}/posts")
