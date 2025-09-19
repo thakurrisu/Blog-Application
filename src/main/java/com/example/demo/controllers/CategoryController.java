@@ -18,10 +18,12 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import com.example.demo.payloads.CategoryDto;
 import com.example.demo.services.CategoryService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@Tag(name = "Category APIs")
 public class CategoryController {
 	
 	@Autowired

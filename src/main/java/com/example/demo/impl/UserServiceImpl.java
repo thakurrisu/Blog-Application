@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
@@ -26,10 +27,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		// TODO Auto-generated method stub
 		User user = userDtoToUser(userDto);
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		this.userRepo.save(user);
 		UserDto savedUserDto = userToDto(user);
 		return savedUserDto;
@@ -43,7 +48,7 @@ public class UserServiceImpl implements UserService {
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setId(userId);
         userToUpdate.setName(user.getName());
-        userToUpdate.setPassword(user.getPassword());
+        userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
         UserDto updatedUserDto = userToDto(userToUpdate);
         User updatedUser = this.userRepo.save(userToUpdate);
 		return updatedUserDto;
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(int Id) {
 		// TODO Auto-generated method stub
-		User user = this.userRepo.findById(Id).orElseThrow(()->new ResourceNotFoundException("Category","category Id",Id));
+		User user = this.userRepo.findById(Id).orElseThrow(()->new ResourceNotFoundException("User","user Id",Id));
 		this.userRepo.delete(user);
 
 	}
