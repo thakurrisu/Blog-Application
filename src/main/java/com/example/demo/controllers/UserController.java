@@ -50,7 +50,7 @@ public class UserController {
 	}
 	
 	//Post()
-	@PostMapping("/")
+	@PostMapping("/create")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto)
 	{
 		UserDto createdUser = this.userService.createUser(userDto);
